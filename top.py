@@ -13,9 +13,7 @@ SECONDS=1
 def run_command(command):    
     return os.popen(command).read()
 
-def top():
-    while True:
-        
+def uso_cpu():
         str = run_command("ps -eo pcpu,user,pmem,pid,cmd | sort -rk 1 | head -10")
         iter = str.split('\n')
         iter.remove(iter[0])
@@ -30,9 +28,33 @@ def top():
                 pid= result[3]
                 name= " ".join(result[4:])
                 
-                print ( cpu, user , mem, name )
+                
             except:
                 pass
+
+def uso_memoria():
+        str = run_command("ps -eo pmem,user,pcpu,pid,cmd | sort -rk 1 | head -10")
+        iter = str.split('\n')
+        iter.remove(iter[0])
+        for it in iter:
+            it=re.sub(r'\s+', ' ', it.strip())
+            result = it.split(" ")
+            print result
+            try:
+                mem= result[0]
+                user= result[1]
+                cpu= result[2]
+                pid= result[3]
+                name= " ".join(result[4:])
+                
+                
+            except:
+                pass
+    
+def top():
+    while True:
+        uso_cpu()
+        uso_memoria()
         time.sleep(SECONDS)
         
 
