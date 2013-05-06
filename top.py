@@ -16,16 +16,19 @@ def run_command(command):
 def top():
     while True:
         
-        str = run_command("ps -eo pcpu,user,pmem,pid,cmd | sort -r | head -10")
+        str = run_command("ps -eo pcpu,user,pmem,pid,cmd | sort -rk 1 | head -10")
         iter = str.split('\n')
         iter.remove(iter[0])
         for it in iter:
+            it=re.sub(r'\s+', ' ', it.strip())
             result = it.split(" ")
+            print result
             try:
-                cpu= result[1]
-                user= result[2]
-                mem= result[5]
-                name= result[7]
+                cpu= result[0]
+                user= result[1]
+                mem= result[2]
+                pid= result[3]
+                name= " ".join(result[4:])
                 
                 print ( cpu, user , mem, name )
             except:
@@ -36,3 +39,4 @@ def top():
 
 if __name__ == '__main__':
     top()
+
