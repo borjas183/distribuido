@@ -174,13 +174,9 @@ public class ChatGUI extends javax.swing.JFrame {
 
   JTextField passwordField = (JTextField) new JPasswordField(20);
     private void agregarNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarNodoActionPerformed
-
     
         String host=JOptionPane.showInputDialog("Host",ApplicationController.defaultHost);
-        
-        
-        String user=JOptionPane.showInputDialog("User",ApplicationController.defaultUser);
-        
+        String user=JOptionPane.showInputDialog("User",ApplicationController.defaultUser);        
         String passwd=ApplicationController.defaultPassword;
         passwordField.setText(passwd);
             Object[] ob = {passwordField};
@@ -196,8 +192,7 @@ public class ChatGUI extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Nodo no se pudo alcanzar");
-            }
-        
+            }        
     }//GEN-LAST:event_agregarNodoActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
