@@ -52,11 +52,9 @@ def uso_memoria():
                 pass
     
 def top():
-    while True:
-        uso_cpu()
-        uso_memoria()
-        time.sleep(SECONDS)
-        
+	uso_cpu()
+	uso_memoria()
+	
 
 
 if __name__ == '__main__':
