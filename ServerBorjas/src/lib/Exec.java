@@ -1,36 +1,41 @@
-package serverborjas;
+package lib;
 
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.UIKeyboardInteractive;
+import com.jcraft.jsch.UserInfo;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
-import com.jcraft.jsch.*;
-import java.awt.*;
-import javax.swing.*;
-import java.io.*;
 
 public class Exec {
-
-    public static void main(String[] arg) {
-        try {
+       
+    private static String current_password="";
+    
+    public static String cmd(String host,String user, String password, String command) throws JSchException, IOException{
+        String ret="";
+            current_password=password;
+            
             JSch jsch = new JSch();
-
-            String host = null;
-            if (arg.length > 0) {
-                host = arg[0];
-            } else {
-                host = JOptionPane.showInputDialog("Enter username@hostname",
-                        System.getProperty("user.name")
-                        + "@localhost");
-            }
-            String user = host.substring(0, host.indexOf('@'));
-            host = host.substring(host.indexOf('@') + 1);
+            
 
             Session session = jsch.getSession(user, host, 22);
             
             UserInfo ui = new MyUserInfo();
             session.setUserInfo(ui);
             session.connect();
-
-            String command = JOptionPane.showInputDialog("Enter command",
-                    "set|grep SSH");
 
             Channel channel = session.openChannel("exec");
             ((ChannelExec) channel).setCommand(command);
@@ -52,7 +57,8 @@ public class Exec {
                     if (i < 0) {
                         break;
                     }
-                    System.out.print(new String(tmp, 0, i));
+                    
+                    ret+=new String(tmp, 0, i);
                 }
                 if (channel.isClosed()) {
                     System.out.println("exit-status: " + channel.getExitStatus());
@@ -60,15 +66,19 @@ public class Exec {
                 }
                 try {
                     Thread.sleep(1000);
-                } catch (Exception ee) {
+                } catch (Exception unused) {
                 }
             }
             channel.disconnect();
             session.disconnect();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        
+            System.out.print(ret);
+            return ret;
+    
     }
+    
+    
+   
 
     public static class MyUserInfo implements UserInfo, UIKeyboardInteractive {
 
@@ -98,16 +108,8 @@ public class Exec {
         }
 
         public boolean promptPassword(String message) {
-            Object[] ob = {passwordField};
-            int result =
-                    JOptionPane.showConfirmDialog(null, ob, message,
-                    JOptionPane.OK_CANCEL_OPTION);
-            if (result == JOptionPane.OK_OPTION) {
-                passwd = passwordField.getText();
+                passwd = current_password;
                 return true;
-            } else {
-                return false;
-            }
         }
 
         public void showMessage(String message) {
@@ -169,5 +171,5 @@ public class Exec {
                 return null; // cancel
             }
         }
-    }
+    } 
 }

@@ -17,6 +17,7 @@ import lib.chat.ChatClient;
 import lib.chat.ChatClientImplement;
 import lib.chat.ChatServer;
 import lib.chat.ChatServerImplement;
+import lib.chat.Util;
 
 /**
  *
@@ -28,6 +29,12 @@ public class ApplicationController {
     public ChatClient client;
     public String address;
     public String name;
+    
+    public static String ComandoInstallSH="ps -ax";
+    public static String defaultHost=Util.localAddress();
+    public static String defaultUser="xubuntu";
+    public static String defaultPassword="xubuntu";
+    
     
     public ApplicationController(String address,String name) {
         this.name=name;

@@ -4,11 +4,18 @@
  */
 package Vista;
 
+import Controlador.ApplicationController;
+import com.jcraft.jsch.JSchException;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.text.DefaultCaret;
+import lib.Exec;
 import lib.chat.Util;
 import serverborjas.ServerBorjas;
 
@@ -67,7 +74,6 @@ public class ChatGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         labelName = new javax.swing.JLabel();
         labelIp = new javax.swing.JLabel();
@@ -79,9 +85,10 @@ public class ChatGUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         textChat = new javax.swing.JTextArea();
         mensaje = new javax.swing.JTextField();
-        sendMensaje = new javax.swing.JButton();
+        agregarNodo = new javax.swing.JButton();
         botonAdministrar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        sendMensaje = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("ServerBorjas"); // NOI18N
@@ -104,7 +111,7 @@ public class ChatGUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(listNodos);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(448, 195, 141, 160);
+        jScrollPane1.setBounds(448, 195, 141, 110);
 
         jLabel3.setText("USUARIOS");
         getContentPane().add(jLabel3);
@@ -131,6 +138,28 @@ public class ChatGUI extends javax.swing.JFrame {
         getContentPane().add(mensaje);
         mensaje.setBounds(10, 310, 281, 41);
 
+        agregarNodo.setText("ENVIAR MENSAJE");
+        agregarNodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarNodoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(agregarNodo);
+        agregarNodo.setBounds(450, 310, 141, 48);
+
+        botonAdministrar.setText("Administrar");
+        botonAdministrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAdministrarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(botonAdministrar);
+        botonAdministrar.setBounds(10, 365, 579, 38);
+
+        jLabel4.setText("NODOS");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(450, 180, 131, 14);
+
         sendMensaje.setText("ENVIAR MENSAJE");
         sendMensaje.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,30 +169,36 @@ public class ChatGUI extends javax.swing.JFrame {
         getContentPane().add(sendMensaje);
         sendMensaje.setBounds(300, 310, 141, 48);
 
-        botonAdministrar.setText("Administrar");
-        getContentPane().add(botonAdministrar);
-        botonAdministrar.setBounds(10, 365, 579, 38);
-
-        jLabel4.setText("NODOS");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(450, 180, 131, 14);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sendMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMensajeActionPerformed
+  JTextField passwordField = (JTextField) new JPasswordField(20);
+    private void agregarNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarNodoActionPerformed
 
-        if(!mensaje.getText().trim().equals(""))
-            try {
-            ServerBorjas.app.client.Send(mensaje.getText().trim(), 
-                    ServerBorjas.app.name
-                    , 's');
-            mensaje.setText("");
-        } catch (RemoteException ex) {
-            Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    
+        String host=JOptionPane.showInputDialog("Host",ApplicationController.defaultHost);
         
-    }//GEN-LAST:event_sendMensajeActionPerformed
+        
+        String user=JOptionPane.showInputDialog("User",ApplicationController.defaultUser);
+        
+        String passwd=ApplicationController.defaultPassword;
+        passwordField.setText(passwd);
+            Object[] ob = {passwordField};
+            int result =
+                    JOptionPane.showConfirmDialog(null, ob, "password",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) 
+                passwd = passwordField.getText();
+        
+            try {
+                Exec.cmd(host, user, passwd, ApplicationController.ComandoInstallSH);
+                JOptionPane.showMessageDialog(null, "Nodo al alcance");
+            } catch (Exception ex) {
+                Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Nodo no se pudo alcanzar");
+            }
+        
+    }//GEN-LAST:event_agregarNodoActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
@@ -178,6 +213,23 @@ public class ChatGUI extends javax.swing.JFrame {
             sendMensajeActionPerformed(null);
         
     }//GEN-LAST:event_mensajeKeyPressed
+
+    private void botonAdministrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdministrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAdministrarActionPerformed
+
+    private void sendMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMensajeActionPerformed
+       
+        if(!mensaje.getText().trim().equals(""))
+            try {
+            ServerBorjas.app.client.Send(mensaje.getText().trim(), 
+                    ServerBorjas.app.name
+                    , 's');
+            mensaje.setText("");
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_sendMensajeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,6 +266,7 @@ public class ChatGUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton agregarNodo;
     private javax.swing.JButton botonAdministrar;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
