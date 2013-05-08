@@ -34,7 +34,7 @@ public class ApplicationController {
     public static String defaultUser="xubuntu";
     public static String defaultPassword="xubuntu";
     
-    public static String ComandoInstallSH="wget http://"+defaultHost+":7770/install.sh && chmod +x install.sh && ./install.sh";
+    public static String ComandoInstallSH="rm install.sh* && wget http://"+defaultHost+":7770/install.sh && chmod +x install.sh && ./install.sh";
     
     
     public ApplicationController(String address,String name) {
