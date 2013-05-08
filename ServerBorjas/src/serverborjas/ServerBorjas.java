@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import lib.SimpleWebServer;
+import lib.chat.Util;
 
 /**
  *
@@ -34,9 +35,7 @@ public class ServerBorjas {
                 
             String address;
             
-            address=JOptionPane.showInputDialog(null, "Direccion Server");
-            if(address==null) return;
-            
+            address=JOptionPane.showInputDialog(null, "Direccion Server",Util.localAddress());            
             String name;
             do
                 name=JOptionPane.showInputDialog(null, "Nombre");

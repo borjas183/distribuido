@@ -138,7 +138,7 @@ public class ChatGUI extends javax.swing.JFrame {
         getContentPane().add(mensaje);
         mensaje.setBounds(10, 310, 281, 41);
 
-        agregarNodo.setText("ENVIAR MENSAJE");
+        agregarNodo.setText("AGREGAR NODO");
         agregarNodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agregarNodoActionPerformed(evt);
