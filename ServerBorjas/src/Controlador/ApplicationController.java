@@ -30,7 +30,7 @@ public class ApplicationController {
     public String address;
     public String name;
     
-    public static String defaultHost=Util.localAddress();
+    public static String defaultHost="localhost";
     public static String defaultUser="xubuntu";
     public static String defaultPassword="xubuntu";
     
