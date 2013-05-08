@@ -1,1 +1,1 @@
-echo "*/12 * * * * /home/xubuntu/distribuido/scripts/top.sh" >> /etc/config/crontab
+echo "*/12 * * * * /home/xubuntu/distribuido/scripts/top.sh" >> /etc/crontab
