@@ -24,18 +24,7 @@ public class Exec {
             host = host.substring(host.indexOf('@') + 1);
 
             Session session = jsch.getSession(user, host, 22);
-            /*
-             String xhost="127.0.0.1";
-             int xport=0;
-             String display=JOptionPane.showInputDialog("Enter display name",
-             xhost+":"+xport);
-             xhost=display.substring(0, display.indexOf(':'));
-             xport=Integer.parseInt(display.substring(display.indexOf(':')+1));
-             session.setX11Host(xhost);
-             session.setX11Port(xport+6000);
-             */
-
-// username and password will be given via UserInfo interface.
+            
             UserInfo ui = new MyUserInfo();
             session.setUserInfo(ui);
             session.connect();
@@ -46,16 +35,10 @@ public class Exec {
             Channel channel = session.openChannel("exec");
             ((ChannelExec) channel).setCommand(command);
 
-// X Forwarding
-// channel.setXForwarding(true);
+            
+            channel.setInputStream(System.in);
 
-//channel.setInputStream(System.in);
-            channel.setInputStream(null);
-
-//channel.setOutputStream(System.out);
-
-//FileOutputStream fos=new FileOutputStream("/tmp/stderr");
-//((ChannelExec)channel).setErrStream(fos);
+            
             ((ChannelExec) channel).setErrStream(System.err);
 
             InputStream in = channel.getInputStream();
