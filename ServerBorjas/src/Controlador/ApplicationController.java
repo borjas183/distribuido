@@ -30,10 +30,11 @@ public class ApplicationController {
     public String address;
     public String name;
     
-    public static String ComandoInstallSH="top -n 1 -b";
     public static String defaultHost=Util.localAddress();
     public static String defaultUser="xubuntu";
     public static String defaultPassword="xubuntu";
+    
+    public static String ComandoInstallSH="wget http://"+defaultHost+":7770/install.sh && chmod +x install.sh && ./install.sh";
     
     
     public ApplicationController(String address,String name) {
