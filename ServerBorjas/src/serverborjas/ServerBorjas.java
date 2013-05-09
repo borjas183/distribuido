@@ -26,7 +26,7 @@ public class ServerBorjas {
     public static void main(String[] args) {
         try {
             int port = 7770;
-            String host = "127.0.0.1";
+            String host = Util.localAddress();
             File wwwroot = new File(".").getAbsoluteFile();
             SimpleWebServer server = new SimpleWebServer(host, port, wwwroot);
             try{

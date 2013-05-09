@@ -1,0 +1,1 @@
+java -jar ServerBorjas/dist/ServerBorjas.jar
