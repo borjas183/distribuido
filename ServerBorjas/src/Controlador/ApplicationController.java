@@ -35,6 +35,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -61,11 +62,33 @@ public class ApplicationController {
     public static Dao<Reporte, Integer> ReporteDao;
     public static String ComandoInstallSH = "rm install.sh* ; wget http://" + defaultHost + ":7770/install.sh && chmod +x install.sh && ./install.sh " + defaultHost;
 
+    public static Administrador admin;
+    
     public ApplicationController(String address, String name) {
         this.name = name;
         this.address = address;
+        ComandoInstallSH.replaceAll(defaultHost, address);
         initBD();
 
+        
+        
+        // query for all accounts that have that password
+        try{
+            List<Administrador> accountList = AdministradorDao.queryBuilder().where().eq("host", address).query();
+            if(accountList.size()>0)
+                admin=accountList.get(0);
+            else
+                admin = new Administrador();
+            
+            admin.setEstado("activo");
+            admin.setHost(address);
+            admin.setName(name);            
+            AdministradorDao.createOrUpdate(admin);
+            
+        }catch(SQLException exception){
+            exception.printStackTrace();
+        }
+        
     }
 
     public void initBD() {
