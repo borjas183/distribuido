@@ -8,12 +8,13 @@ import sys
 
 
 if __name__=='__main__':        
-    host= str(sys.argv[1])    
+    host= str(sys.argv[1])       
+    child_ip= str(sys.argv[2])    
     admin = session.query(Administrador).filter_by(host = host).first()
     
     nodo = session.query(Nodo).filter_by(host = socket.gethostname(), admin = admin).first()
     if not nodo:
-        nodo=Nodo(host=socket.gethostname(),administrador_id=admin.id)
+        nodo=Nodo(host=child_ip,administrador_id=admin.id)
         session.add(nodo)
     nodo.estado="activo"
     session.commit()

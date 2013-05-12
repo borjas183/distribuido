@@ -5,10 +5,13 @@
 package Vista;
 
 import Controlador.ApplicationController;
+import Modelo.Administrador;
+import Modelo.Nodo;
 import com.jcraft.jsch.JSchException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,7 +19,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultCaret;
 import lib.Exec;
-import lib.chat.Util;
+import lib.Util;
 import serverborjas.ServerBorjas;
 
 /**
@@ -186,8 +189,26 @@ public class ChatGUI extends javax.swing.JFrame {
             if (result == JOptionPane.OK_OPTION) 
                 passwd = passwordField.getText();
         
+            String output="";
             try {
-                Exec.cmd(host, user, passwd, ApplicationController.ComandoInstallSH);
+                  output = Exec.cmd(host, user, passwd, ApplicationController.ComandoInstallSH+" "+host);
+                  String nodo_id=Util.getNodoId(output);
+                  
+                  Nodo nodo;
+                  
+                    List<Nodo> models = ApplicationController.NodoDao.queryBuilder().where().eq("host", host).query();
+                    if(models.size()>0)
+                        nodo=models.get(0);
+                    else
+                        nodo = new Nodo();
+                  nodo.setEstado("activo");
+                  nodo.setPassword(passwd);
+                  nodo.setUsuario(user);
+                  nodo.setHost(host);
+                  ApplicationController.NodoDao.createOrUpdate(nodo);
+                  if(!nodo_id.equals( String.valueOf( nodo.getId() ) )){
+                      System.out.println("---- :D --- ");                  
+                  }
                 JOptionPane.showMessageDialog(null, "Nodo al alcance");
             } catch (Exception ex) {
                 Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);

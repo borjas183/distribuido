@@ -23,7 +23,7 @@ import lib.chat.ChatClient;
 import lib.chat.ChatClientImplement;
 import lib.chat.ChatServer;
 import lib.chat.ChatServerImplement;
-import lib.chat.Util;
+import lib.Util;
 
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
