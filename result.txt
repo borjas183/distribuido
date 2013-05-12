@@ -1,0 +1,2 @@
+TERM=linux
+COLORTERM=xfce4-terminal
