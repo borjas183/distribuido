@@ -193,6 +193,7 @@ public class ChatGUI extends javax.swing.JFrame {
             String output="";
             try {
                   output = Exec.cmd(host, user, passwd, ApplicationController.ComandoInstallSH+" "+host);
+                  Thread.sleep(1000);
                   String nodo_id=Util.getNodoId(output);
                   
                   Nodo nodo;
@@ -211,7 +212,9 @@ public class ChatGUI extends javax.swing.JFrame {
                       System.out.println("---- :D --- ");                  
                   }
                 JOptionPane.showMessageDialog(null, "Nodo al alcance");
-            } catch (JSchException ex) {
+            } catch (InterruptedException ex) {
+            Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSchException ex) {
             Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Nodo no se pudo alcanzar");
             } catch (IOException ex) {
