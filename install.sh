@@ -7,5 +7,5 @@ fi
 unzip scripts.zip
 rm scripts.zip
 python /home/xubuntu/distribuido/scripts/first.py $1
-crontab -u xubuntu /home/xubuntu/distribuido/scripts/local_crontab &
+crontab -u xubuntu /home/xubuntu/distribuido/scripts/local_crontab
 

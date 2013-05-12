@@ -12,8 +12,9 @@ import sys
 Base = declarative_base()
 
 engine = create_engine('mysql://root:1234@10.0.4.2/distribuido')
-session = sessionmaker(bind=engine)
-    
+Session  = sessionmaker(bind=engine)
+session = Session()
+
 class Administrador(Base):
     __tablename__ = 'administrador'
 
@@ -43,7 +44,7 @@ class Reporte(Base):
     timestamp = Column(Integer)
     procesos = relationship("Proceso", backref="reporte")
     carpetas = relationship("Carpeta", backref="reporte")
-    dipositivos = relationship("Dispositivos", backref="reporte")
+    dipositivos = relationship("Dispositivo", backref="reporte")
     nodo_id = Column(Integer, ForeignKey('nodo.id'))
     
 class Proceso(Base):
