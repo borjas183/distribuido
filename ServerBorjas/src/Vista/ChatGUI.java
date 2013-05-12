@@ -11,6 +11,7 @@ import com.jcraft.jsch.JSchException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -210,10 +211,15 @@ public class ChatGUI extends javax.swing.JFrame {
                       System.out.println("---- :D --- ");                  
                   }
                 JOptionPane.showMessageDialog(null, "Nodo al alcance");
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (JSchException ex) {
+            Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Nodo no se pudo alcanzar");
-            }        
+            } catch (IOException ex) {
+                Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Nodo no se pudo alcanzar");
+            } catch (SQLException ex) {
+                    ex.printStackTrace();
+             }        
     }//GEN-LAST:event_agregarNodoActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
