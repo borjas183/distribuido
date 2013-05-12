@@ -92,6 +92,9 @@ public class ApplicationController {
     }
 
     public void initBD() {
+        initBD(0);
+    }
+    public void initBD(int trys) {
         JdbcConnectionSource connectionSource = null;
         try {
             // create our data source
@@ -104,7 +107,11 @@ public class ApplicationController {
         } catch (SQLException ex) {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            // destroy the data source which should close underlying connections
+            if(trys==0){
+                dbUrl=dbUrl.replaceAll("localhost", "10.0.4.2");
+                initBD(trys+1);
+                return;
+            }
             if (connectionSource != null) {
                 try {
                     connectionSource.close();
