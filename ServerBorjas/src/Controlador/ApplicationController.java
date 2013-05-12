@@ -48,7 +48,7 @@ public class ApplicationController {
     public ChatClient client;
     public String address;
     public String name;
-    public static String defaultHost = Util.localAddress();
+    public static String defaultHost = "localhost";
     public static String defaultUser = "xubuntu";
     public static String defaultPassword = "xubuntu";
     public static String dbUrl = "jdbc:mysql://localhost/distribuido";
@@ -67,6 +67,7 @@ public class ApplicationController {
     public ApplicationController(String address, String name) {
         this.name = name;
         this.address = address;
+        defaultHost=address;
         ComandoInstallSH.replaceAll(defaultHost, address);
         initBD();
 

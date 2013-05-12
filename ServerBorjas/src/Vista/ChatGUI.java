@@ -211,7 +211,7 @@ public class ChatGUI extends javax.swing.JFrame {
                   }
                 JOptionPane.showMessageDialog(null, "Nodo al alcance");
             } catch (Exception ex) {
-                Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Nodo no se pudo alcanzar");
             }        
     }//GEN-LAST:event_agregarNodoActionPerformed
