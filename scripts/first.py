@@ -20,6 +20,7 @@ if __name__=='__main__':
     session.commit()
     
     
+    nodo = session.query(Nodo).filter_by(host=child_ip).first()
     filename=os.path.join(os.path.dirname(os.path.abspath(__file__)),"nodo_id");
     f=open(filename,"w+")
     f.write(str(nodo.id))
