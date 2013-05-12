@@ -26,13 +26,14 @@ public class ServerBorjas {
     public static void main(String[] args) {
         try {
             int port = 7770;
-            String host = Util.localAddress();
-            File wwwroot = new File(".").getAbsoluteFile();
-            SimpleWebServer server = new SimpleWebServer(host, port, wwwroot);
-            try{
-                server.start();
-            }catch(IOException unused){}
-                
+            
+            for(String host : Util.locals()){
+                File wwwroot = new File(".").getAbsoluteFile();
+                SimpleWebServer server = new SimpleWebServer(host, port, wwwroot);
+                try{
+                    server.start();
+                }catch(IOException unused){}                
+            }
             String address;
             
             address=JOptionPane.showInputDialog(null, "Direccion Server",Util.localAddress());            
