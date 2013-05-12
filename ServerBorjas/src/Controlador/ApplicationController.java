@@ -71,7 +71,8 @@ public class ApplicationController {
         defaultHost=address;
         initBD();
 
-        
+        System.out.println("------ DEFAULT COMMAND INSTALL----");
+        System.out.println(ComandoInstallSH);
         
         // query for all accounts that have that password
         try{
