@@ -22,6 +22,6 @@ if __name__=='__main__':
     
     filename=os.path.join(os.path.dirname(os.path.abspath(__file__)),"nodo_id");
     f=open(filename,"w+")
-    f.write(nodo.id)
+    f.write(str(nodo.id))
     f.close()
     print "<nodo_id>%s</nodo_id>"%str(nodo.id)
