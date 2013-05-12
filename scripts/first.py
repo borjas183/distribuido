@@ -5,7 +5,7 @@ import re
 from model import *
 import socket
 import sys
-
+import os
 
 if __name__=='__main__':        
     host= str(sys.argv[1])       
@@ -18,4 +18,9 @@ if __name__=='__main__':
         session.add(nodo)
     nodo.estado="activo"
     session.commit()
+    
+    filename=os.path.join(os.path.abspath( __file__ ),"nodo_id");
+    f=open(filename,"w+")
+    f.write(nodo.id)
+    f.close()
     print "<nodo_id>%s</nodo_id>"%str(nodo.id)
