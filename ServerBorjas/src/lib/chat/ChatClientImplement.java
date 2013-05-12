@@ -1,11 +1,10 @@
 package lib.chat;
 
-import java.rmi.*;
-import java.rmi.server.*;
-import java.util.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import java.lang.Thread;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import serverborjas.ServerBorjas;

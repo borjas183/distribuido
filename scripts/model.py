@@ -20,6 +20,8 @@ class Administrador(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
     host = Column(String(250))
+    estado = Column(String(250))
+    info = Column(String(250))
     nodos = relationship("Nodo", backref="admin")
 
 class Nodo(Base):
@@ -29,8 +31,10 @@ class Nodo(Base):
     usuario = Column(String(250))
     password = Column(String(250))
     referencia = Column(String(250))
+    estado = Column(String(250))
+    info = Column(String(250))
     administrador_id = Column(Integer, ForeignKey('administrador.id'))
-    reportes = relationship("Dispositivos", backref="nodo")
+    reportes = relationship("Reporte", backref="nodo")
     
 class Reporte(Base):    
     __tablename__ = 'reporte'
@@ -39,7 +43,7 @@ class Reporte(Base):
     timestamp = Column(Integer)
     procesos = relationship("Proceso", backref="reporte")
     carpetas = relationship("Carpeta", backref="reporte")
-    carpetas = relationship("Dispositivos", backref="reporte")
+    dipositivos = relationship("Dispositivos", backref="reporte")
     nodo_id = Column(Integer, ForeignKey('nodo.id'))
     
 class Proceso(Base):
@@ -70,7 +74,6 @@ class Dispositivo(Base):
     total = Column(DECIMAL)
     usado = Column(DECIMAL)
     disponible = Column(DECIMAL)
-    nombre = Column(String(250))
     reporte_id = Column(Integer, ForeignKey('reporte.id'))
 
 

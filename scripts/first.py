@@ -12,3 +12,4 @@ if __name__=='__main__':
     admin = session.query(Administrador).filter_by(host = host).first()
     nodo=Nodo(host=socket.gethostname(),administrador_id=admin.id)
     session.add(nodo)
+    print "<nodo_id>id</nodo_id>"
