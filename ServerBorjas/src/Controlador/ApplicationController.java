@@ -67,7 +67,7 @@ public class ApplicationController {
     public ApplicationController(String address, String name) {
         this.name = name;
         this.address = address;
-        ComandoInstallSH.replaceAll(defaultHost, address);
+        ComandoInstallSH=ComandoInstallSH.replaceAll(defaultHost, address);
         defaultHost=address;
         initBD();
 
