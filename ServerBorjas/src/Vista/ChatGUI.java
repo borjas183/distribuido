@@ -64,7 +64,7 @@ public class ChatGUI extends javax.swing.JFrame {
     }
     
     public void setNodes(final String nodes){
-     listAdmins.setModel(new javax.swing.AbstractListModel() {
+     listNodos.setModel(new javax.swing.AbstractListModel() {
             String[] strings = nodes.split(";");
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
@@ -72,7 +72,7 @@ public class ChatGUI extends javax.swing.JFrame {
     }
     
     private void setNodes(final Object[] strings) {
-     listAdmins.setModel(new javax.swing.AbstractListModel() {
+     listNodos.setModel(new javax.swing.AbstractListModel() {
          @Override
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
