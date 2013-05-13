@@ -84,7 +84,7 @@ public class ChatGUI extends javax.swing.JFrame {
         
         LinkedList<String> nombres= new LinkedList<String>();
         try{
-            models= ApplicationController.NodoDao.queryBuilder().where().eq("admin_id", ApplicationController.admin.getId()).query();
+            models= ApplicationController.NodoDao.queryBuilder().where().eq("administrador_id", ApplicationController.admin.getId()).query();
             for(Nodo nodo: models){
              nombres.add(nodo.getId()+":"+nodo.getHost());
             }
