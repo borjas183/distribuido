@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +46,7 @@ public class ChatGUI extends javax.swing.JFrame {
             caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         
             setLocationRelativeTo(null);
+            actualizarListaNodos();
     }
     
     public void appendText(String txt){
@@ -69,6 +71,30 @@ public class ChatGUI extends javax.swing.JFrame {
         });    
     }
     
+    private void setNodes(final Object[] strings) {
+     listAdmins.setModel(new javax.swing.AbstractListModel() {
+         @Override
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });    
+    }
+    public void actualizarListaNodos() {
+
+        List<Nodo> models;
+        
+        LinkedList<String> nombres= new LinkedList<String>();
+        try{
+            models= ApplicationController.NodoDao.queryBuilder().where().eq("admin_id", ApplicationController.admin.getId()).query();
+            for(Nodo nodo: models){
+             nombres.add(nodo.getId()+":"+nodo.getHost());
+            }
+        
+        }catch(SQLException ex){
+
+        }
+        
+        setNodes(nombres.toArray());
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -198,7 +224,7 @@ public class ChatGUI extends javax.swing.JFrame {
                   
                   Nodo nodo;
                   
-                    List<Nodo> models = ApplicationController.NodoDao.queryBuilder().where().eq("host", host).query();
+                    List<Nodo> models = ApplicationController.NodoDao.queryBuilder().where().eq("host", host).and().eq("estado", "activo").query();
                     if(models.size()>0)
                         nodo=models.get(0);
                     else
@@ -211,6 +237,8 @@ public class ChatGUI extends javax.swing.JFrame {
                   if(!nodo_id.equals( String.valueOf( nodo.getId() ) )){
                       System.out.println("---- :D --- ");                  
                   }
+                  actualizarListaNodos();
+                  
                 JOptionPane.showMessageDialog(null, "Nodo al alcance");
             } catch (InterruptedException ex) {
             Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -306,4 +334,5 @@ public class ChatGUI extends javax.swing.JFrame {
     private javax.swing.JButton sendMensaje;
     private javax.swing.JTextArea textChat;
     // End of variables declaration//GEN-END:variables
+
 }

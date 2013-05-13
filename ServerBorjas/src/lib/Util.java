@@ -23,9 +23,15 @@ import java.util.regex.Pattern;
  * @author DTI Gestion
  */
 public class Util {
-    
+    private static String priority="192.168.56";
     public static String localAddress(){
         try {
+            
+            for(String address: locals()){
+                if(address.contains(priority)){
+                    return address;
+                }
+            }
             return InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException ex) {
             return "localhost";

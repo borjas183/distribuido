@@ -43,6 +43,7 @@ import java.util.List;
  */
 public class ApplicationController {
 
+
     public ChatGUI chat;
     public ChatServer local;
     public ChatClient client;
@@ -76,7 +77,7 @@ public class ApplicationController {
         
         // query for all accounts that have that password
         try{
-            List<Administrador> accountList = AdministradorDao.queryBuilder().where().eq("host", address).query();
+            List<Administrador> accountList = AdministradorDao.queryBuilder().where().eq("host", Util.localAddress()).query();
             if(accountList.size()>0)
                 admin=accountList.get(0);
             else
@@ -92,6 +93,8 @@ public class ApplicationController {
         }
         
     }
+    
+    
 
     public void initBD() {
         initBD(0);
