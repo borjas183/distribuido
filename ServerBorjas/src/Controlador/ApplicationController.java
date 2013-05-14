@@ -71,7 +71,7 @@ public class ApplicationController {
         this.address = address;
         ComandoInstallSH=ComandoInstallSH.replaceAll(defaultHost, address);
         defaultHost=address;
-       /* initBD();
+        initBD();
 
         System.out.println("------ DEFAULT COMMAND INSTALL----");
         System.out.println(ComandoInstallSH);
@@ -92,7 +92,7 @@ public class ApplicationController {
         }catch(SQLException exception){
             exception.printStackTrace();
         }
-        */
+        
     }
     
     
@@ -159,15 +159,9 @@ public class ApplicationController {
         chat.setVisible(true);
 
         if(!Client.ping(address, ServerChat.puertoServidor)){
-            System.out.println("server?");
             local= new ServerChat();
         }
         
-        System.out.println("cliente");
-            
-       /* int clientPort=Integer.parseInt( JOptionPane.showInputDialog(null, "PORT") );
-        ClientChat.puertoCliente=clientPort;
-        */
         client= new ClientChat(address, name);
             
 

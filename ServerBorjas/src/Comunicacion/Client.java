@@ -61,7 +61,7 @@ public class Client {
             }catch(NumberFormatException unused){}
         }
         
-            System.out.println("host: "+host);
+            System.out.println("send request to host: "+host);
             Socket socket= new Socket(host, port);
             
             ObjectOutputStream objectOutputStream= new ObjectOutputStream(socket.getOutputStream());

@@ -45,7 +45,7 @@ public class ServerChat implements ServerListener{
     }
     
     public boolean registrase(String nombre, String ip){
-        //if(clientes.containsValue(ip)) return false;
+        if(clientes.containsValue(ip)) return false;
         
         clientes.put(nombre, ip);
         sendMessage(nombre+" ha entrado a la sala");
@@ -76,8 +76,25 @@ public class ServerChat implements ServerListener{
         }else
         if(req.action.equals("salir")){
              salir(req.params.get("nombre"), req.params.get("ip"));
+        }else
+        if(req.action.equals("listar")){
+             return new Response( list() );
         }
         return new Response(content);
+    }
+
+    private String list() {
+        String ret="";
+        boolean first=true;
+        for(String key : clientes.keySet()){
+            if(first)
+                ret+=key;
+            else
+                ret+=";"+key;
+        }
+        
+        return ret;      
+        
     }
 
     

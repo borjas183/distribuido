@@ -80,7 +80,7 @@ public class ChatGUI extends javax.swing.JFrame {
         });    
     }
     public void actualizarListaNodos() {
-/*
+
         List<Nodo> models;
         
         LinkedList<String> nombres= new LinkedList<String>();
@@ -95,7 +95,7 @@ public class ChatGUI extends javax.swing.JFrame {
         }
         
         setNodes(nombres.toArray());
-        * */
+        
     }
     
     /**
