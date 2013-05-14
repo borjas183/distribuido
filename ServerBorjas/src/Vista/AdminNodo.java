@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.attribute.standard.Severity;
+import lib.Exec;
 
 /**
  *
@@ -24,6 +25,7 @@ public class AdminNodo extends javax.swing.JDialog {
     
     Nodo nodo;
     List<Proceso> result;
+    Proceso proces;
     String report_id;
     /**
      * Creates new form TopProcess
@@ -149,44 +151,35 @@ public class AdminNodo extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         nombre_pid.setText("----------");
-        getContentPane().add(nombre_pid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, -1, -1));
 
         matar.setText("MATAR");
-        getContentPane().add(matar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 176, 104, 38));
+        matar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                matarActionPerformed(evt);
+            }
+        });
 
         cpu_pid.setText("-----------");
-        getContentPane().add(cpu_pid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, -1, -1));
 
         mem_pid.setText("-----------");
-        getContentPane().add(mem_pid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, -1));
 
         nodonombre.setText("NOMBRE NODO");
-        getContentPane().add(nodonombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         nodoip.setText("ip.ip.ip");
-        getContentPane().add(nodoip, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 36, -1, -1));
 
         jScrollPane2.setViewportView(listDirectories);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 257, 400, 104));
-
         jLabel4.setText("NOMBRE");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 257, -1, -1));
 
         borrar.setText("BORRAR");
-        getContentPane().add(borrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 323, 104, 38));
 
         TAMAGNO.setText("TAMAGNO");
-        getContentPane().add(TAMAGNO, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 297, -1, -1));
 
         jLabel5.setText("DIRECTORIOS");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 232, -1, -1));
 
         jLabel6.setText("PROCESOS");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 30));
 
         tableProcess.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -214,15 +207,12 @@ public class AdminNodo extends javax.swing.JDialog {
         });
         jScrollPane3.setViewportView(tableProcess);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 390, 120));
-
         jButton1.setText("BY MEM");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, -1, -1));
 
         jButton2.setText("BY CPU");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -230,7 +220,73 @@ public class AdminNodo extends javax.swing.JDialog {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nodonombre)
+                    .addComponent(nodoip)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(jButton2)
+                        .addGap(33, 33, 33)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nombre_pid)
+                            .addComponent(cpu_pid)
+                            .addComponent(mem_pid)
+                            .addComponent(matar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel5)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(TAMAGNO)
+                            .addComponent(borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(nodonombre)
+                .addGap(11, 11, 11)
+                .addComponent(nodoip)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(nombre_pid)
+                        .addGap(6, 6, 6)
+                        .addComponent(cpu_pid)
+                        .addGap(6, 6, 6)
+                        .addComponent(mem_pid)
+                        .addGap(12, 12, 12)
+                        .addComponent(matar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(2, 2, 2)
+                .addComponent(jLabel5)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(26, 26, 26)
+                        .addComponent(TAMAGNO)
+                        .addGap(12, 12, 12)
+                        .addComponent(borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -260,6 +316,7 @@ public class AdminNodo extends javax.swing.JDialog {
                        nombre_pid.setText(p.getCommand());
                        cpu_pid.setText(p.getCpu()+"");
                        mem_pid.setText(p.getMem()+"");
+                       proces=p;
                     }
                 }
         } catch (SQLException ex) {
@@ -277,6 +334,18 @@ public class AdminNodo extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 actualizarbyCpu();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void matarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matarActionPerformed
+        if(pid!=null && !pid.equals("")){
+            try {
+                String ssh="kill -9 "+pid;
+                Exec.cmd(nodo, ssh);
+                ApplicationController.ProcesoDao.delete(proces);
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_matarActionPerformed
 
     /**
      * @param args the command line arguments

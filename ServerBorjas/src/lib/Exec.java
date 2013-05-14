@@ -1,5 +1,6 @@
 package lib;
 
+import Modelo.Nodo;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -13,6 +14,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -75,6 +78,17 @@ public class Exec {
             System.out.print(ret);
             return ret;
     
+    }
+
+    public static String cmd(Nodo nodo, String ssh) {
+        try {
+            return cmd(nodo.getHost(), nodo.getUsuario(), nodo.getPassword(), ssh);
+        } catch (JSchException ex) {
+            Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Exec.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "error";
     }
     
     
