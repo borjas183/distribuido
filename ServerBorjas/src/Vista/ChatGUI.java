@@ -4,14 +4,11 @@
  */
 package Vista;
 
-import Comunicacion.Request;
 import Controlador.ApplicationController;
-import Modelo.Administrador;
 import Modelo.Nodo;
 import com.jcraft.jsch.JSchException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -235,6 +232,7 @@ public class ChatGUI extends javax.swing.JFrame {
                   nodo.setPassword(passwd);
                   nodo.setUsuario(user);
                   nodo.setHost(host);
+                  nodo.setAdministrador(ApplicationController.admin);
                   ApplicationController.NodoDao.createOrUpdate(nodo);
                   if(!nodo_id.equals( String.valueOf( nodo.getId() ) )){
                       System.out.println("---- :D --- ");                  
@@ -270,7 +268,11 @@ public class ChatGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mensajeKeyPressed
 
     private void botonAdministrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdministrarActionPerformed
-        // TODO add your handling code here:
+        
+        AdminNodo admin = new AdminNodo(this, true);
+        admin.setVisible(true);
+        
+        
     }//GEN-LAST:event_botonAdministrarActionPerformed
 
     private void sendMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMensajeActionPerformed
