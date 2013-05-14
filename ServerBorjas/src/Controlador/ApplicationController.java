@@ -63,6 +63,7 @@ public class ApplicationController {
     public static Dao<Proceso, Integer> ProcesoDao;
     public static Dao<Reporte, Integer> ReporteDao;
     public static String ComandoInstallSH = "rm install.sh* ; wget http://" + defaultHost + ":7770/install.sh && chmod +x install.sh && ./install.sh " + defaultHost;
+    public static String ComandoUninstallSH = "rm uninstall.sh* ; wget http://" + defaultHost + ":7770/uninstall.sh && chmod +x install.sh && ./uninstall.sh " + defaultHost;
 
     public static Administrador admin;
     

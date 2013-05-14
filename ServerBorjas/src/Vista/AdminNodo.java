@@ -5,6 +5,8 @@
 package Vista;
 
 import Controlador.ApplicationController;
+import Modelo.Carpeta;
+import Modelo.Dispositivo;
 import Modelo.Nodo;
 import Modelo.Proceso;
 import Modelo.Reporte;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.attribute.standard.Severity;
+import javax.swing.JOptionPane;
 import lib.Exec;
 
 /**
@@ -25,8 +28,11 @@ public class AdminNodo extends javax.swing.JDialog {
     
     Nodo nodo;
     List<Proceso> result;
+    List<Dispositivo> dispositivos;
+    List<Carpeta> carpetas;
     Proceso proces;
     String report_id;
+    private String carpeta_id;
     /**
      * Creates new form TopProcess
      */
@@ -57,6 +63,36 @@ public class AdminNodo extends javax.swing.JDialog {
                     i++;
                 }
                 setProcess(procesos);
+                
+                
+                dispositivos= ApplicationController.DispositivoDao.queryBuilder().where().eq("reporte_id",report_id).query();
+                
+                Object[][] dis= new Object[dispositivos.size()][5];
+                i=0;
+                for (Dispositivo p : dispositivos) {
+                    dis[i][0]=p.getNombre();
+                    dis[i][1]=p.getDev();
+                    dis[i][2]=p.getTotal()+"";
+                    dis[i][3]=p.getUsado()+"";
+                    i++;
+                }                
+                setDispositivos(dis);
+                
+                
+                carpetas= ApplicationController.CarpetaDao.queryBuilder().where().eq("reporte_id",report_id).query();
+                
+                Object[][] carp= new Object[dispositivos.size()][5];
+                i=0;
+                for (Carpeta p : carpetas) {
+                    carp[i][0]=p.getDireccion();
+                    carp[i][1]=p.getEspacio();
+                    carp[i][2]=p.getUsuario();
+                    carp[i][3]=p.getId();
+                    i++;
+                }                
+                setDispositivos(dis);
+                
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,20 +144,26 @@ public class AdminNodo extends javax.swing.JDialog {
         tableProcess.setModel(new javax.swing.table.DefaultTableModel(
             process,
             new String [] {
-                "PID", "CPU", "MEM", "COMMAD"
+                "PID", "CPU", "MEM", "COMMANDO"
             }
         ));
     }
-    public void setDirs(final String[] dirs){
-        
-        listDirectories.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = dirs;
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-    
+    private void setDispositivos(final Object[][] process) { 
+        tableProcess.setModel(new javax.swing.table.DefaultTableModel(
+            process,
+            new String [] {
+                "NOMBRE", "DEV", "TOTAL", "USADO"
+            }
+        ));
     }
-    
+    private void setCarpeta(final Object[][] process) { 
+        tableProcess.setModel(new javax.swing.table.DefaultTableModel(
+            process,
+            new String [] {
+                "DIRECCION", "OCUPA", "USUARIO", "ID"
+            }
+        ));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -137,9 +179,7 @@ public class AdminNodo extends javax.swing.JDialog {
         mem_pid = new javax.swing.JLabel();
         nodonombre = new javax.swing.JLabel();
         nodoip = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listDirectories = new javax.swing.JList();
-        jLabel4 = new javax.swing.JLabel();
+        nombre_Dir = new javax.swing.JLabel();
         borrar = new javax.swing.JButton();
         TAMAGNO = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -148,6 +188,12 @@ public class AdminNodo extends javax.swing.JDialog {
         tableProcess = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        desintalar = new javax.swing.JButton();
+        cmd = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tableDispositivo = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        directorios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -169,9 +215,7 @@ public class AdminNodo extends javax.swing.JDialog {
 
         nodoip.setText("ip.ip.ip");
 
-        jScrollPane2.setViewportView(listDirectories);
-
-        jLabel4.setText("NOMBRE");
+        nombre_Dir.setText("NOMBRE");
 
         borrar.setText("BORRAR");
 
@@ -221,6 +265,72 @@ public class AdminNodo extends javax.swing.JDialog {
             }
         });
 
+        desintalar.setText("DESINTALAR");
+        desintalar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                desintalarActionPerformed(evt);
+            }
+        });
+
+        cmd.setText("CMD");
+        cmd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdActionPerformed(evt);
+            }
+        });
+
+        tableDispositivo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "PID", "CPU", "COMMAND", "USER"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableDispositivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDispositivoMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tableDispositivo);
+
+        directorios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "PID", "CPU", "COMMAND", "USER"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        directorios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                directoriosMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(directorios);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -228,39 +338,56 @@ public class AdminNodo extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nodonombre)
-                    .addComponent(nodoip)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(jButton2)
-                        .addGap(33, 33, 33)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(desintalar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                             .addComponent(nombre_pid)
                             .addComponent(cpu_pid)
                             .addComponent(mem_pid)
                             .addComponent(matar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel5)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(TAMAGNO)
-                            .addComponent(borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(jButton2)
+                                .addGap(33, 33, 33)
+                                .addComponent(jButton1))
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nombre_Dir)
+                                    .addComponent(TAMAGNO)
+                                    .addComponent(borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(nodoip)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(nodonombre)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmd)
+                                .addGap(122, 122, 122)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(nodonombre)
-                .addGap(11, 11, 11)
-                .addComponent(nodoip)
-                .addGap(30, 30, 30)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nodonombre)
+                            .addComponent(cmd))
+                        .addGap(6, 6, 6)
+                        .addComponent(nodoip))
+                    .addComponent(desintalar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)
@@ -279,13 +406,16 @@ public class AdminNodo extends javax.swing.JDialog {
                 .addComponent(jLabel5)
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(nombre_Dir)
                         .addGap(26, 26, 26)
                         .addComponent(TAMAGNO)
                         .addGap(12, 12, 12)
-                        .addComponent(borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -297,7 +427,7 @@ public class AdminNodo extends javax.swing.JDialog {
     private void tableProcessMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProcessMouseClicked
         try {
             int row=tableProcess.getSelectedRow();
-            String pid=tableProcess.getModel().getValueAt(row, 0).toString();
+            pid=tableProcess.getModel().getValueAt(row, 0).toString();
             
             
                 String[] selected= serverborjas.ServerBorjas.app.chat.getSelectedNodo().split(":");
@@ -347,6 +477,51 @@ actualizarbyCpu();
         }
     }//GEN-LAST:event_matarActionPerformed
 
+    private void desintalarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desintalarActionPerformed
+       if(pid!=null && !pid.equals("")){
+            try {
+                Exec.cmd(nodo, ApplicationController.ComandoUninstallSH);
+                ApplicationController.ProcesoDao.delete(proces);
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_desintalarActionPerformed
+
+    private void cmdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdActionPerformed
+       if(pid!=null && !pid.equals("")){
+            try {
+                String ssh=JOptionPane.showInputDialog("Escriba un comando");
+                Exec.cmd(nodo, ssh);
+                ApplicationController.ProcesoDao.delete(proces);
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_cmdActionPerformed
+
+    private void tableDispositivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDispositivoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tableDispositivoMouseClicked
+
+    private void directoriosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_directoriosMouseClicked
+       
+            int row=directorios.getSelectedRow();
+            carpeta_id=directorios.getModel().getValueAt(row, 3).toString();
+            
+            
+                for (Carpeta p : carpetas) {
+                    if(carpeta_id==String.valueOf( p.getId() ) ){
+                        
+                        nombre_Dir.setText(p.getDireccion());
+                        TAMAGNO.setText(p.getEspacio());
+                        
+                        break;
+                    }
+                }  
+            
+    }//GEN-LAST:event_directoriosMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -391,20 +566,24 @@ actualizarbyCpu();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TAMAGNO;
     private javax.swing.JButton borrar;
+    private javax.swing.JButton cmd;
     private javax.swing.JLabel cpu_pid;
+    private javax.swing.JButton desintalar;
+    private javax.swing.JTable directorios;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JList listDirectories;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JButton matar;
     private javax.swing.JLabel mem_pid;
     private javax.swing.JLabel nodoip;
     private javax.swing.JLabel nodonombre;
+    private javax.swing.JLabel nombre_Dir;
     private javax.swing.JLabel nombre_pid;
+    private javax.swing.JTable tableDispositivo;
     private javax.swing.JTable tableProcess;
     // End of variables declaration//GEN-END:variables
 
