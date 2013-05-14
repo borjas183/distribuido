@@ -1,5 +1,5 @@
-mkdir distribuido
-cd distribuido
+mkdir nodo_distribuido
+cd nodo_distribuido
 rm -r scripts*
 wget http://$1:7770/scripts.zip
 if [ ! -f scripts.zip ]; then
@@ -7,6 +7,6 @@ if [ ! -f scripts.zip ]; then
 fi
 unzip scripts.zip
 rm scripts.zip
-python /home/xubuntu/distribuido/scripts/first.py $1 $2
-crontab -u xubuntu /home/xubuntu/distribuido/scripts/local_crontab
+python /home/xubuntu/nodo_distribuido/scripts/first.py $1 $2
+crontab -u xubuntu /home/xubuntu/nodo_distribuido/scripts/local_crontab
 

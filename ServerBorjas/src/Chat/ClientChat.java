@@ -67,7 +67,7 @@ public class ClientChat implements ServerListener{
         if(req.action.equals("refresh")){
             
             Response resp= send( new Request("listar") );
-            ServerBorjas.app.chat.setNodes(resp.content);
+            ServerBorjas.app.chat.setAdmins(resp.content);
         }
         
         
