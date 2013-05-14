@@ -44,7 +44,7 @@ public class AdminNodo extends javax.swing.JDialog {
                 
                 LinkedList<String> procesos= new LinkedList<String>();
                 for (Proceso p : result) {
-                    String str=p.getPid()+":"+p.getCpu()+":"+p.getMem()+":"+p.getCommand();
+                    String str=p.getPid()+":"+p.getCpu()+":"+p.getMem()+":"+p.getCommand()+":"+p.getReporte().getNodo().getHost();
                     System.out.println(str);
                     procesos.add(str);
                 }

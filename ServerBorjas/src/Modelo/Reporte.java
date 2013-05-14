@@ -47,7 +47,7 @@ public class Reporte {
 	private ForeignCollection<Dispositivo> dipositivos;
         
         @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "nodo_id")
-	private Nodo nodos;
+	private Nodo nodo;
 
     public int getId() {
         return id;
@@ -97,12 +97,12 @@ public class Reporte {
         this.dipositivos = dipositivos;
     }
 
-    public Nodo getNodos() {
-        return nodos;
+    public Nodo getNodo() {
+        return nodo;
     }
 
-    public void setNodos(Nodo nodos) {
-        this.nodos = nodos;
+    public void setNodo(Nodo nodos) {
+        this.nodo = nodos;
     }
         
 
