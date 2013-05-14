@@ -93,9 +93,9 @@ def top():
     
     nodo = session.query(Nodo).filter_by(id = nodo_id).first()
 
-    report=Reporte(nodo_id=nodo.id,timestamp=datetime.datetime.now())
+    report=Reporte(nodo_id=nodo.id,timestamp=int(time.time()))
     session.add(report)
-    
+    session.commit()
     uso_cpu(report.id)
     uso_filesystem(report.id)
         
