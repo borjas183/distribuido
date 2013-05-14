@@ -35,7 +35,7 @@ public class Client {
             _send(host, port , new Request("ping"));
             return true;
         } catch (Exception ex) {
-            
+            ex.printStackTrace();
         }
         return false;
     }
@@ -60,6 +60,8 @@ public class Client {
                 port=Integer.parseInt(splitting[1]);
             }catch(NumberFormatException unused){}
         }
+        
+            System.out.println("host: "+host);
             Socket socket= new Socket(host, port);
             
             ObjectOutputStream objectOutputStream= new ObjectOutputStream(socket.getOutputStream());

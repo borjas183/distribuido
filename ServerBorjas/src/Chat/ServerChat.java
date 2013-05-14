@@ -45,7 +45,7 @@ public class ServerChat implements ServerListener{
     }
     
     public boolean registrase(String nombre, String ip){
-        if(clientes.containsValue(ip)) return false;
+        //if(clientes.containsValue(ip)) return false;
         
         clientes.put(nombre, ip);
         sendMessage(nombre+" ha entrado a la sala");

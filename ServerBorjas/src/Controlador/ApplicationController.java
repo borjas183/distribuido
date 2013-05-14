@@ -36,6 +36,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -162,7 +163,11 @@ public class ApplicationController {
             local= new ServerChat();
         }
         
-            System.out.println("cliente");
+        System.out.println("cliente");
+            
+       /* int clientPort=Integer.parseInt( JOptionPane.showInputDialog(null, "PORT") );
+        ClientChat.puertoCliente=clientPort;
+        */
         client= new ClientChat(address, name);
             
 

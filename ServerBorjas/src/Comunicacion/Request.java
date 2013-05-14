@@ -16,6 +16,7 @@ public class Request implements Serializable{
     public Request() {
         this.action="";
         this.params= new LinkedHashMap<String,String>();
+        
     }
 
     public Request(String action) {
