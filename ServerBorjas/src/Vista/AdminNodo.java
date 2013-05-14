@@ -21,7 +21,7 @@ import lib.Exec;
 
 /**
  *
- * @author miguel
+ * @author borjas
  */
 public class AdminNodo extends javax.swing.JDialog {
 

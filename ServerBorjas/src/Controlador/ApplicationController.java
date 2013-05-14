@@ -40,7 +40,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author miguel
+ * @author borjas
  */
 public class ApplicationController {
 

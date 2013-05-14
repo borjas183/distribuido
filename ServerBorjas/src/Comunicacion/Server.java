@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author miguel
+ * @author borjas
  */
 public class Server implements Runnable {
     

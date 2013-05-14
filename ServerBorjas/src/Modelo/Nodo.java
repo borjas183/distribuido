@@ -23,7 +23,7 @@ class Nodo(Base):
     reportes = relationship("Reporte", backref="nodo")
  * 
  * 
- * @author miguel
+ * @author borjas
  */
 @DatabaseTable(tableName ="nodo")
 public class Nodo {

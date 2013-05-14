@@ -6,7 +6,7 @@ package Comunicacion;
 
 /**
  *
- * @author miguel
+ * @author borjas
  */
 public interface ServerListener {
     

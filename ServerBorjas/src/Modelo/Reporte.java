@@ -21,7 +21,7 @@ class Reporte(Base):
     dipositivos = relationship("Dispositivos", backref="reporte")
     nodo_id = Column(Integer, ForeignKey('nodo.id'))
     
- * @author miguel
+ * @author borjas
  */
 
 

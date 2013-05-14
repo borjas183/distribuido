@@ -15,7 +15,7 @@ import lib.Util;
 
 /**
  *
- * @author miguel
+ * @author borjas
  */
 public class ServerBorjas {
     public static ApplicationController app;

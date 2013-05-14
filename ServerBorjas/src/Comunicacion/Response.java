@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 
 /**
  *
- * @author miguel
+ * @author borjas
  */
 public class Response implements Serializable{
     

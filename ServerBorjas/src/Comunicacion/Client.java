@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author miguel
+ * @author borjas
  */
 public class Client {
     public static int defaultPort=1830;

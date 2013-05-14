@@ -20,7 +20,7 @@ class Dispositivo(Base):
     reporte_id = Column(Integer, ForeignKey('reporte.id'))
 
  *
- * @author miguel
+ * @author borjas
  */
 @DatabaseTable(tableName ="dispositivo")
 public class Dispositivo {

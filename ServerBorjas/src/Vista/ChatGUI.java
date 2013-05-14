@@ -24,7 +24,7 @@ import serverborjas.ServerBorjas;
 
 /**
  *
- * @author miguel
+ * @author borjas
  */
 public class ChatGUI extends javax.swing.JFrame {
 

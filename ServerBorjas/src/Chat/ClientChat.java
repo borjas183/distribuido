@@ -15,7 +15,7 @@ import serverborjas.ServerBorjas;
 
 /**
  *
- * @author miguel
+ * @author borjas
  */
 public class ClientChat implements ServerListener{
 

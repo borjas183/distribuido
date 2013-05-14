@@ -22,7 +22,7 @@ class Administrador(Base):
  * 
  * 
  * 
- * @author miguel
+ * @author borjas
  */
 @DatabaseTable(tableName ="administrador")
 public class Administrador {

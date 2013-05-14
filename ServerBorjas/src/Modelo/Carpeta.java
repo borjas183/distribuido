@@ -18,7 +18,7 @@ class Carpeta(Base):
     direccion = Column(String(250))
     reporte_id = Column(Integer, ForeignKey('reporte.id'))
  * 
- * @author miguel
+ * @author borjas
  */
 @DatabaseTable(tableName ="carpeta")
 public class Carpeta {

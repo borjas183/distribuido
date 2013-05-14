@@ -21,7 +21,7 @@ class Proceso(Base):
     reporte_id = Column(Integer, ForeignKey('reporte.id'))
     
  *
- * @author miguel
+ * @author borjas
  */
 @DatabaseTable(tableName ="proceso")
 public class Proceso {
