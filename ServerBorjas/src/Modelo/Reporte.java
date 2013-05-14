@@ -48,6 +48,62 @@ public class Reporte {
         
         @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "nodo_id")
 	private Nodo nodos;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public int getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(int timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public ForeignCollection<Proceso> getProcesos() {
+        return procesos;
+    }
+
+    public void setProcesos(ForeignCollection<Proceso> procesos) {
+        this.procesos = procesos;
+    }
+
+    public ForeignCollection<Carpeta> getCarpetas() {
+        return carpetas;
+    }
+
+    public void setCarpetas(ForeignCollection<Carpeta> carpetas) {
+        this.carpetas = carpetas;
+    }
+
+    public ForeignCollection<Dispositivo> getDipositivos() {
+        return dipositivos;
+    }
+
+    public void setDipositivos(ForeignCollection<Dispositivo> dipositivos) {
+        this.dipositivos = dipositivos;
+    }
+
+    public Nodo getNodos() {
+        return nodos;
+    }
+
+    public void setNodos(Nodo nodos) {
+        this.nodos = nodos;
+    }
         
 
     

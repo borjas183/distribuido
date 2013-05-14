@@ -6,7 +6,11 @@ package Vista;
 
 import Controlador.ApplicationController;
 import Modelo.Nodo;
+import Modelo.Proceso;
+import Modelo.Reporte;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.attribute.standard.Severity;
@@ -32,8 +36,18 @@ public class AdminNodo extends javax.swing.JDialog {
             
             nodonombre.setText(nodo.getEstado());
             nodoip.setText(nodo.getHost());
+            List<Reporte> query = ApplicationController.ReporteDao.queryBuilder().orderBy("id", false).limit(1).where().eq("nodo_id", String.valueOf(nodo.getId()) ).query();
             
-            
+            if(query.size()>0){
+                Reporte rep=query.get(0);
+                List<Proceso> result= ApplicationController.ProcesoDao.queryBuilder().where().eq("reporte_id",""+rep.getId()).query();
+                
+                LinkedList<String> procesos= new LinkedList<String>();
+                for (Proceso p : result) {
+                    procesos.add(p.getPid()+":"+p.getCpu()+":"+p.getMem()+":"+p.getCommand());
+                }
+                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -44,7 +58,26 @@ public class AdminNodo extends javax.swing.JDialog {
         
         
     }
-
+    
+    public void setProcess(final String[] process){
+        
+        listProcess.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = process;
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+    
+    }
+    public void setDirs(final String[] dirs){
+        
+        listDirectories.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = dirs;
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+    
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -74,11 +107,6 @@ public class AdminNodo extends javax.swing.JDialog {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        listProcess.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(listProcess);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 400, 104));
@@ -101,11 +129,6 @@ public class AdminNodo extends javax.swing.JDialog {
         nodoip.setText("ip.ip.ip");
         getContentPane().add(nodoip, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 36, -1, -1));
 
-        listDirectories.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(listDirectories);
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 257, 400, 104));
@@ -122,8 +145,8 @@ public class AdminNodo extends javax.swing.JDialog {
         jLabel5.setText("DIRECTORIOS");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 232, -1, -1));
 
-        jLabel6.setText("PROCESOS");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 85, -1, -1));
+        jLabel6.setText("PID : CPU : MEM : COMMAND          ------- PROCESOS");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 400, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
