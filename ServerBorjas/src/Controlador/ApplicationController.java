@@ -4,6 +4,9 @@
  */
 package Controlador;
 
+import Chat.ClientChat;
+import Chat.ServerChat;
+import Comunicacion.Client;
 import Modelo.Administrador;
 import Modelo.Carpeta;
 import Modelo.Dispositivo;
@@ -19,10 +22,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lib.chat.ChatClient;
-import lib.chat.ChatClientImplement;
-import lib.chat.ChatServer;
-import lib.chat.ChatServerImplement;
+
 import lib.Util;
 
 import com.j256.ormlite.dao.CloseableIterator;
@@ -45,8 +45,8 @@ public class ApplicationController {
 
 
     public ChatGUI chat;
-    public ChatServer local;
-    public ChatClient client;
+    public ServerChat local;
+    public ClientChat client;
     public String address;
     public String name;
     public static String defaultHost = "localhost";
@@ -70,7 +70,7 @@ public class ApplicationController {
         this.address = address;
         ComandoInstallSH=ComandoInstallSH.replaceAll(defaultHost, address);
         defaultHost=address;
-        initBD();
+       /* initBD();
 
         System.out.println("------ DEFAULT COMMAND INSTALL----");
         System.out.println(ComandoInstallSH);
@@ -91,7 +91,7 @@ public class ApplicationController {
         }catch(SQLException exception){
             exception.printStackTrace();
         }
-        
+        */
     }
     
     
@@ -157,28 +157,14 @@ public class ApplicationController {
         chat = new ChatGUI(address, name);
         chat.setVisible(true);
 
-        ChatServer chatServ;
-        try {
-            chatServ = (ChatServer) Naming.lookup("rmi://" + address + "/ChatServer");
-            client = new ChatClientImplement(chatServ);
-        } catch (Exception unused) {
-            try {
-                address = "localhost";
-                try {
-                    Registry registry = LocateRegistry.createRegistry(1099);
-                } catch (Exception unused1) {
-                }
-                local = new ChatServerImplement();
-                try {
-                    Naming.rebind("ChatServer", local);
-                } catch (Exception unused2) {
-                }
-                chatServ = (ChatServer) Naming.lookup("rmi://" + address + "/ChatServer");
-                client = new ChatClientImplement(chatServ);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if(!Client.ping(address, ServerChat.puertoServidor)){
+            System.out.println("server?");
+            local= new ServerChat();
         }
+        
+            System.out.println("cliente");
+        client= new ClientChat(address, name);
+            
 
     }
 }

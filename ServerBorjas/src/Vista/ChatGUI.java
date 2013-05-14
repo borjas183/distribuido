@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Comunicacion.Request;
 import Controlador.ApplicationController;
 import Modelo.Administrador;
 import Modelo.Nodo;
@@ -79,7 +80,7 @@ public class ChatGUI extends javax.swing.JFrame {
         });    
     }
     public void actualizarListaNodos() {
-
+/*
         List<Nodo> models;
         
         LinkedList<String> nombres= new LinkedList<String>();
@@ -94,6 +95,7 @@ public class ChatGUI extends javax.swing.JFrame {
         }
         
         setNodes(nombres.toArray());
+        * */
     }
     
     /**
@@ -273,15 +275,11 @@ public class ChatGUI extends javax.swing.JFrame {
 
     private void sendMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMensajeActionPerformed
        
-        if(!mensaje.getText().trim().equals(""))
-            try {
-            ServerBorjas.app.client.Send(mensaje.getText().trim(), 
-                    ServerBorjas.app.name
-                    , 's');
+        if(!mensaje.getText().trim().equals("")){
+            ServerBorjas.app.client.hablar(mensaje.getText().trim());
             mensaje.setText("");
-        } catch (RemoteException ex) {
-            Logger.getLogger(ChatGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
     }//GEN-LAST:event_sendMensajeActionPerformed
 
     /**
