@@ -48,7 +48,7 @@ public class AdminNodo extends javax.swing.JDialog {
                     procesos[i][0]=p.getPid();
                     procesos[i][1]=p.getCpu();
                     procesos[i][2]=p.getMem();
-                    procesos[i][3]=p.getUser();
+                    procesos[i][3]=p.getCommand();
                     i++;
                 }
                 setProcess(procesos);
@@ -68,7 +68,7 @@ public class AdminNodo extends javax.swing.JDialog {
         tableProcess.setModel(new javax.swing.table.DefaultTableModel(
             process,
             new String [] {
-                "PID", "CPU", "COMMAND", "HOST"
+                "PID", "CPU", "MEM", "COMMAD"
             }
         ));
     }
