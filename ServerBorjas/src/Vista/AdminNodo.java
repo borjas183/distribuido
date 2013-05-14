@@ -61,7 +61,7 @@ public class AdminNodo extends javax.swing.JDialog {
     
     private void setProcess(final Object[] process) {
         listProcess.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = (String[]) process;
+            Object[] strings =  process;
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
