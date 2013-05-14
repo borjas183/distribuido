@@ -40,14 +40,12 @@ public class Proceso {
 	@DatabaseField
 	private double mem;
         
-	@DatabaseField
-	private double timestamp;
         
 	@DatabaseField
-	private double time;
+	private String time;
         
 	@DatabaseField
-	private double command;
+	private String command;
         
         
         @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "reporte_id")
@@ -93,27 +91,12 @@ public class Proceso {
             this.mem = mem;
         }
 
-        public double getTimestamp() {
-            return timestamp;
-        }
 
-        public void setTimestamp(double timestamp) {
-            this.timestamp = timestamp;
-        }
-
-        public double getTime() {
-            return time;
-        }
-
-        public void setTime(double time) {
-            this.time = time;
-        }
-
-        public double getCommand() {
+        public String getCommand() {
             return command;
         }
 
-        public void setCommand(double command) {
+        public void setCommand(String command) {
             this.command = command;
         }
 

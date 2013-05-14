@@ -91,10 +91,10 @@ public class AdminNodo extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        nombre_pid = new javax.swing.JLabel();
         matar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        cpu_pid = new javax.swing.JLabel();
+        mem_pid = new javax.swing.JLabel();
         nodonombre = new javax.swing.JLabel();
         nodoip = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -111,17 +111,17 @@ public class AdminNodo extends javax.swing.JDialog {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("NOMBRE");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, -1, -1));
+        nombre_pid.setText("----------");
+        getContentPane().add(nombre_pid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, -1, -1));
 
         matar.setText("MATAR");
         getContentPane().add(matar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 176, 104, 38));
 
-        jLabel2.setText("NUMERO");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, -1, -1));
+        cpu_pid.setText("-----------");
+        getContentPane().add(cpu_pid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, -1, -1));
 
-        jLabel3.setText("CONSUMO");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, -1));
+        mem_pid.setText("-----------");
+        getContentPane().add(mem_pid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, -1));
 
         nodonombre.setText("NOMBRE NODO");
         getContentPane().add(nodonombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
@@ -167,12 +167,50 @@ public class AdminNodo extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tableProcess.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProcessMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tableProcess);
 
         getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 390, 120));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private String pid;
+    private String host;
+    
+    private void tableProcessMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProcessMouseClicked
+        try {
+            int row=tableProcess.getSelectedRow();
+            String pid=tableProcess.getModel().getValueAt(row, 0).toString();
+            
+            
+                String[] selected= serverborjas.ServerBorjas.app.chat.getSelectedNodo().split(":");
+                nodo=ApplicationController.NodoDao.queryForId(Integer.valueOf(selected[0]));
+                
+                nodonombre.setText(nodo.getEstado());
+                nodoip.setText(nodo.getHost());
+                List<Reporte> query = ApplicationController.ReporteDao.queryBuilder().orderBy("id", false).limit(1).where().eq("nodo_id", String.valueOf(nodo.getId()) ).query();
+                
+                if(query.size()>0){
+                    Reporte rep=query.get(0);
+                    List<Proceso> result= ApplicationController.ProcesoDao.queryBuilder().where().eq("reporte_id",""+rep.getId()).and().eq("pid", pid.trim()).query();
+                    if(result.size()>0){
+                        Proceso p=result.get(0);
+                       pid=p.getPid();
+                       nombre_pid.setText(p.getCommand());
+                       cpu_pid.setText(p.getCpu()+"");
+                       mem_pid.setText(p.getMem()+"");
+                    }
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_tableProcessMouseClicked
 
     /**
      * @param args the command line arguments
@@ -218,9 +256,7 @@ public class AdminNodo extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TAMAGNO;
     private javax.swing.JButton borrar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel cpu_pid;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -228,8 +264,10 @@ public class AdminNodo extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList listDirectories;
     private javax.swing.JButton matar;
+    private javax.swing.JLabel mem_pid;
     private javax.swing.JLabel nodoip;
     private javax.swing.JLabel nodonombre;
+    private javax.swing.JLabel nombre_pid;
     private javax.swing.JTable tableProcess;
     // End of variables declaration//GEN-END:variables
 
