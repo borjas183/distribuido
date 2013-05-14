@@ -35,9 +35,7 @@ public class ClientChat implements ServerListener{
     
         send( new Request("registrarse", "nombre", nombre, "ip", Util.localAddress()) );
         
-        Response resp= send( new Request("listar") );
         
-        ServerBorjas.app.chat.setNodes(resp.content);
     }
     
     
@@ -65,6 +63,11 @@ public class ClientChat implements ServerListener{
             String quien= req.params.get("quien");
             message(quien, contenido);
             
+        }else
+        if(req.action.equals("refresh")){
+            
+            Response resp= send( new Request("listar") );
+            ServerBorjas.app.chat.setNodes(resp.content);
         }
         
         

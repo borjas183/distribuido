@@ -139,17 +139,17 @@ public class ApplicationController {
         NodoDao = DaoManager.createDao(connectionSource, Nodo.class);
         ProcesoDao = DaoManager.createDao(connectionSource, Proceso.class);
         ReporteDao = DaoManager.createDao(connectionSource, Reporte.class);
-
+        createTables(connectionSource);
     }
 
     private void createTables(ConnectionSource connectionSource) throws SQLException {
         // if you need to create the table
-        TableUtils.createTable(connectionSource, Administrador.class);
-        TableUtils.createTable(connectionSource, Carpeta.class);
-        TableUtils.createTable(connectionSource, Dispositivo.class);
-        TableUtils.createTable(connectionSource, Nodo.class);
-        TableUtils.createTable(connectionSource, Proceso.class);
-        TableUtils.createTable(connectionSource, Reporte.class);
+        TableUtils.createTableIfNotExists(connectionSource, Administrador.class);
+        TableUtils.createTableIfNotExists(connectionSource, Carpeta.class);
+        TableUtils.createTableIfNotExists(connectionSource, Dispositivo.class);
+        TableUtils.createTableIfNotExists(connectionSource, Nodo.class);
+        TableUtils.createTableIfNotExists(connectionSource, Proceso.class);
+        TableUtils.createTableIfNotExists(connectionSource, Reporte.class);
     }
 
     public void init() {

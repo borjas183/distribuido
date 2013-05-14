@@ -43,12 +43,19 @@ public class ServerChat implements ServerListener{
             send(clientes.get(key), new Request("message","contenido",msg,"quien",who));            
         }    
     }
+    public void refresh(){
+        for (String key :  clientes.keySet()) {
+            send(clientes.get(key), new Request("refresh"));            
+        }    
+    }
     
     public boolean registrase(String nombre, String ip){
         if(clientes.containsValue(ip)) return false;
         
         clientes.put(nombre, ip);
         sendMessage(nombre+" ha entrado a la sala");
+        
+        refresh();
         return true;
     }
     
@@ -62,6 +69,7 @@ public class ServerChat implements ServerListener{
     private void salir(String nombre, String ip) {
         clientes.remove(nombre);
         sendMessage(nombre+" ha salido de la sala");
+        refresh();
     }
     
     
@@ -91,6 +99,7 @@ public class ServerChat implements ServerListener{
                 ret+=key;
             else
                 ret+=";"+key;
+            first=false;
         }
         
         return ret;      
