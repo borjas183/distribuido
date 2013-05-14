@@ -42,13 +42,16 @@ public class AdminNodo extends javax.swing.JDialog {
                 Reporte rep=query.get(0);
                 List<Proceso> result= ApplicationController.ProcesoDao.queryBuilder().where().eq("reporte_id",""+rep.getId()).query();
                 
-                LinkedList<String> procesos= new LinkedList<String>();
+                Object[][] procesos= new Object[result.size()][4];
+                int i=0;
                 for (Proceso p : result) {
-                    String str=p.getPid()+":"+p.getCpu()+":"+p.getMem()+":"+p.getCommand()+":"+p.getReporte().getNodo().getHost();
-                    System.out.println(str);
-                    procesos.add(str);
+                    procesos[i][0]=p.getPid();
+                    procesos[i][1]=p.getCpu();
+                    procesos[i][2]=p.getMem();
+                    procesos[i][3]=p.getUser();
+                    i++;
                 }
-                setProcess(procesos.toArray());
+                setProcess(procesos);
             }
         } catch (SQLException ex) {
             Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,21 +64,13 @@ public class AdminNodo extends javax.swing.JDialog {
         
     }
     
-    private void setProcess(final Object[] process) {
-        listProcess.setModel(new javax.swing.AbstractListModel() {
-            Object[] strings =  process;
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-    }
-    public void setProcess(final String[] process){
-        
-        listProcess.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = process;
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-    
+    private void setProcess(final Object[][] process) { 
+        tableProcess.setModel(new javax.swing.table.DefaultTableModel(
+            process,
+            new String [] {
+                "PID", "CPU", "COMMAND", "HOST"
+            }
+        ));
     }
     public void setDirs(final String[] dirs){
         
@@ -96,8 +91,6 @@ public class AdminNodo extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listProcess = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
         matar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -111,14 +104,12 @@ public class AdminNodo extends javax.swing.JDialog {
         TAMAGNO = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableProcess = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jScrollPane1.setViewportView(listProcess);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 400, 104));
 
         jLabel1.setText("NOMBRE");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, -1, -1));
@@ -154,8 +145,31 @@ public class AdminNodo extends javax.swing.JDialog {
         jLabel5.setText("DIRECTORIOS");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 232, -1, -1));
 
-        jLabel6.setText("PID : CPU : MEM : COMMAND          ------- PROCESOS");
+        jLabel6.setText("PROCESOS");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 400, 30));
+
+        tableProcess.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "PID", "CPU", "COMMAND", "USER"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tableProcess);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 390, 120));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -210,13 +224,13 @@ public class AdminNodo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList listDirectories;
-    private javax.swing.JList listProcess;
     private javax.swing.JButton matar;
     private javax.swing.JLabel nodoip;
     private javax.swing.JLabel nodonombre;
+    private javax.swing.JTable tableProcess;
     // End of variables declaration//GEN-END:variables
 
 }
