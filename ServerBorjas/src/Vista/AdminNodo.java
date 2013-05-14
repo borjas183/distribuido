@@ -90,7 +90,7 @@ public class AdminNodo extends javax.swing.JDialog {
                     carp[i][3]=p.getId();
                     i++;
                 }                
-                setDispositivos(dis);
+                setCarpeta(dis);
                 
                 
             }
@@ -149,7 +149,7 @@ public class AdminNodo extends javax.swing.JDialog {
         ));
     }
     private void setDispositivos(final Object[][] process) { 
-        tableProcess.setModel(new javax.swing.table.DefaultTableModel(
+        tableDispositivo.setModel(new javax.swing.table.DefaultTableModel(
             process,
             new String [] {
                 "NOMBRE", "DEV", "TOTAL", "USADO"
@@ -157,7 +157,7 @@ public class AdminNodo extends javax.swing.JDialog {
         ));
     }
     private void setCarpeta(final Object[][] process) { 
-        tableProcess.setModel(new javax.swing.table.DefaultTableModel(
+        directorios.setModel(new javax.swing.table.DefaultTableModel(
             process,
             new String [] {
                 "DIRECCION", "OCUPA", "USUARIO", "ID"
@@ -415,7 +415,7 @@ public class AdminNodo extends javax.swing.JDialog {
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
