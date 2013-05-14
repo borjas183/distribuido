@@ -23,6 +23,8 @@ public class AdminNodo extends javax.swing.JDialog {
 
     
     Nodo nodo;
+    List<Proceso> result;
+    String report_id;
     /**
      * Creates new form TopProcess
      */
@@ -40,7 +42,8 @@ public class AdminNodo extends javax.swing.JDialog {
             
             if(query.size()>0){
                 Reporte rep=query.get(0);
-                List<Proceso> result= ApplicationController.ProcesoDao.queryBuilder().where().eq("reporte_id",""+rep.getId()).query();
+                report_id=rep.getId()+"";
+                result= ApplicationController.ProcesoDao.queryBuilder().where().eq("reporte_id",report_id).query();
                 
                 Object[][] procesos= new Object[result.size()][4];
                 int i=0;
@@ -62,6 +65,41 @@ public class AdminNodo extends javax.swing.JDialog {
         
         
         
+    }
+    public void actualizarbyCpu(){
+    try{
+                result= ApplicationController.ProcesoDao.queryBuilder().orderBy("cpu", false).where().eq("reporte_id",report_id).query();
+                
+                Object[][] procesos= new Object[result.size()][4];
+                int i=0;
+                for (Proceso p : result) {
+                    procesos[i][0]=p.getPid();
+                    procesos[i][1]=p.getCpu();
+                    procesos[i][2]=p.getMem();
+                    procesos[i][3]=p.getCommand();
+                    i++;
+                }
+                setProcess(procesos);
+    }catch(SQLException except){
+    
+    }
+    }public void actualizarbyMem(){
+    try{
+                result= ApplicationController.ProcesoDao.queryBuilder().orderBy("mem", false).where().eq("reporte_id",report_id).query();
+                
+                Object[][] procesos= new Object[result.size()][4];
+                int i=0;
+                for (Proceso p : result) {
+                    procesos[i][0]=p.getPid();
+                    procesos[i][1]=p.getCpu();
+                    procesos[i][2]=p.getMem();
+                    procesos[i][3]=p.getCommand();
+                    i++;
+                }
+                setProcess(procesos);
+    }catch(SQLException except){
+    
+    }
     }
     
     private void setProcess(final Object[][] process) { 
@@ -106,6 +144,8 @@ public class AdminNodo extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableProcess = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -146,7 +186,7 @@ public class AdminNodo extends javax.swing.JDialog {
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 232, -1, -1));
 
         jLabel6.setText("PROCESOS");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 400, 30));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 30));
 
         tableProcess.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -175,6 +215,22 @@ public class AdminNodo extends javax.swing.JDialog {
         jScrollPane3.setViewportView(tableProcess);
 
         getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 390, 120));
+
+        jButton1.setText("BY MEM");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, -1, -1));
+
+        jButton2.setText("BY CPU");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -211,6 +267,16 @@ public class AdminNodo extends javax.swing.JDialog {
         }
         
     }//GEN-LAST:event_tableProcessMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        actualizarbyMem();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+actualizarbyCpu();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,6 +323,8 @@ public class AdminNodo extends javax.swing.JDialog {
     private javax.swing.JLabel TAMAGNO;
     private javax.swing.JButton borrar;
     private javax.swing.JLabel cpu_pid;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
