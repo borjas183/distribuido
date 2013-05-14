@@ -46,7 +46,7 @@ public class AdminNodo extends javax.swing.JDialog {
                 for (Proceso p : result) {
                     procesos.add(p.getPid()+":"+p.getCpu()+":"+p.getMem()+":"+p.getCommand());
                 }
-                
+                setProcess(procesos.toArray());
             }
         } catch (SQLException ex) {
             Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,6 +59,13 @@ public class AdminNodo extends javax.swing.JDialog {
         
     }
     
+    private void setProcess(final Object[] process) {
+        listProcess.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = (String[]) process;
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+    }
     public void setProcess(final String[] process){
         
         listProcess.setModel(new javax.swing.AbstractListModel() {
@@ -209,4 +216,5 @@ public class AdminNodo extends javax.swing.JDialog {
     private javax.swing.JLabel nodoip;
     private javax.swing.JLabel nodonombre;
     // End of variables declaration//GEN-END:variables
+
 }
