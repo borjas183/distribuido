@@ -76,6 +76,13 @@ public class ChatGUI extends javax.swing.JFrame {
             public Object getElementAt(int i) { return strings[i]; }
         });    
     }
+    
+    public String getSelectedNodo(){
+        String str= (String) listNodos.getSelectedValue();
+        if(str==null)
+            return listNodos.getModel().getElementAt(0).toString();
+        return str;
+    }
     public void actualizarListaNodos() {
 
         List<Nodo> models;

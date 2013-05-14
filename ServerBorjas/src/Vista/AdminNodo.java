@@ -4,18 +4,45 @@
  */
 package Vista;
 
+import Controlador.ApplicationController;
+import Modelo.Nodo;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.print.attribute.standard.Severity;
+
 /**
  *
  * @author miguel
  */
 public class AdminNodo extends javax.swing.JDialog {
 
+    
+    Nodo nodo;
     /**
      * Creates new form TopProcess
      */
     public AdminNodo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
+        try {
+            initComponents();
+            
+            String[] selected= serverborjas.ServerBorjas.app.chat.getSelectedNodo().split(":");
+            nodo=ApplicationController.NodoDao.queryForId(Integer.valueOf(selected[0]));
+            
+            nodonombre.setText(nodo.getEstado());
+            nodoip.setText(nodo.getHost());
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+        
+        
     }
 
     /**
