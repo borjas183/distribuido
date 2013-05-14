@@ -27,16 +27,30 @@ DISPONIBLE=6
 USO=8
 NOMBRE=10
 
+
+OCUPA=0
+DIRECCION=2
+
 REG_TOP="([\d]+)([\s]+)([a-zA-Z]+)([\s]+)([a-zA-Z]*[\d]*)([\s]+)([-\d]+)([\s]+)([\d]+[a-z]*)([\s]+)([\d]+[a-z]*)([\s]+)([\d]+[a-z]*)([\s]+)([a-zA-Z]+)([\s]+)([\d]+,[\d])([\s]+)([\d]+,[\d])([\s]+)([\d]+:[\d]+.[\d]+)([\s]+)(.*)";
 REG_FILESYSTEM="(/dev/[a-zA-Z0-9]*)([\s]+)([\d]+)([\s]+)([\d]+)([\s]+)([\d]+)([\s]+)([\d]+%)([\s]+)(.*)"
-
+REG_LS="([\d]+)([\s]+)([\w/]+)"
 SECONDS=300
 
 def run_command(command):    
     return os.popen(command).read()
 
 
-
+def carpetas_home(reporte_id):
+        str = run_command("du -s /home/xubuntu/*");
+        match = re.findall(REG_LS, str)
+        i=1
+        for m in match:
+			espacio=m[OCUPA]
+			direccion=m[DIRECCION]
+            print "carpeta:  %d  pid: %s user: %s " %     (i,   espacio, direccion    )
+			i+=1
+            model_user=Carpeta(espacio=espacio, direccion=direccion,reporte_id=reporte_id)
+            session.add(model_user)
 
 # commando top -n 1 -b
 def uso_cpu(reporte_id):
@@ -98,6 +112,7 @@ def top():
     session.commit()
     uso_cpu(report.id)
     uso_filesystem(report.id)
+    carpetas_home(report.id)
         
 
 

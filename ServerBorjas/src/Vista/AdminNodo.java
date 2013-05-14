@@ -81,7 +81,7 @@ public class AdminNodo extends javax.swing.JDialog {
                 
                 carpetas= ApplicationController.CarpetaDao.queryBuilder().where().eq("reporte_id",report_id).query();
                 
-                Object[][] carp= new Object[dispositivos.size()][5];
+                Object[][] carp= new Object[carpetas.size()][5];
                 i=0;
                 for (Carpeta p : carpetas) {
                     carp[i][0]=p.getDireccion();
@@ -90,7 +90,7 @@ public class AdminNodo extends javax.swing.JDialog {
                     carp[i][3]=p.getId();
                     i++;
                 }                
-                setCarpeta(dis);
+                setCarpeta(carp);
                 
                 
             }
@@ -218,6 +218,11 @@ public class AdminNodo extends javax.swing.JDialog {
         nombre_Dir.setText("NOMBRE");
 
         borrar.setText("BORRAR");
+        borrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarActionPerformed(evt);
+            }
+        });
 
         TAMAGNO.setText("TAMAGNO");
 
@@ -492,6 +497,7 @@ actualizarbyCpu();
        if(pid!=null && !pid.equals("")){
             try {
                 String ssh=JOptionPane.showInputDialog("Escriba un comando");
+                if(ssh==null || ssh.equals("")) return;
                 Exec.cmd(nodo, ssh);
                 ApplicationController.ProcesoDao.delete(proces);
             } catch (SQLException ex) {
@@ -512,15 +518,38 @@ actualizarbyCpu();
             
                 for (Carpeta p : carpetas) {
                     if(carpeta_id==String.valueOf( p.getId() ) ){
-                        
-                        nombre_Dir.setText(p.getDireccion());
-                        TAMAGNO.setText(p.getEspacio());
-                        
-                        break;
+                        try {
+                            
+                            Exec.cmd(nodo, "rm -r "+p.getDireccion());
+                            ApplicationController.CarpetaDao.delete(p);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
+                            
+                        }
+                            break;
                     }
                 }  
             
     }//GEN-LAST:event_directoriosMouseClicked
+
+    private void borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarActionPerformed
+       
+        
+            int row=directorios.getSelectedRow();
+            carpeta_id=directorios.getModel().getValueAt(row, 3).toString();
+            
+            
+                for (Carpeta p : carpetas) {
+                    if(carpeta_id==String.valueOf( p.getId() ) ){
+                        
+                        
+                        
+                        break;
+                    }
+                }  
+        
+        
+    }//GEN-LAST:event_borrarActionPerformed
 
     /**
      * @param args the command line arguments
