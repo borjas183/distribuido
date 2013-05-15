@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.print.attribute.standard.Severity;
 import javax.swing.JOptionPane;
 import lib.Exec;
+import serverborjas.ServerBorjas;
 
 /**
  *
@@ -499,7 +500,9 @@ actualizarbyCpu();
                 String ssh=JOptionPane.showInputDialog("Escriba un comando");
                 if(ssh==null || ssh.equals("")) return;
                 Exec.cmd(nodo, ssh);
-                ApplicationController.ProcesoDao.delete(proces);
+                ApplicationController.NodoDao.delete(nodo);
+                ServerBorjas.app.chat.actualizarListaNodos();
+                dispose();
             } catch (SQLException ex) {
                 Logger.getLogger(AdminNodo.class.getName()).log(Level.SEVERE, null, ex);
             }

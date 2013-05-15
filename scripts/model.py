@@ -11,7 +11,7 @@ import sys
 
 Base = declarative_base()
 
-engine = create_engine('mysql://root:1234@10.0.4.2/distribuido')
+engine = create_engine('mysql://root:root@10.0.4.2/distribuido')
 Session  = sessionmaker(bind=engine)
 session = Session()
 
@@ -81,5 +81,5 @@ class Dispositivo(Base):
 
 
 if __name__=='__main__':    
-    engine = create_engine('mysql://root:1234@10.0.4.2/distribuido')
+    engine = create_engine('mysql://root:root@10.0.4.2/distribuido')
     Base.metadata.create_all(engine);

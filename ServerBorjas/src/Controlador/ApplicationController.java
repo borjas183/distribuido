@@ -55,7 +55,7 @@ public class ApplicationController {
     public static String defaultPassword = "xubuntu";
     public static String dbUrl = "jdbc:mysql://localhost/distribuido";
     public static String dbUser = "root";
-    public static String dbPassword = "1234";
+    public static String dbPassword = "root";
     public static Dao<Administrador, Integer> AdministradorDao;
     public static Dao<Carpeta, Integer> CarpetaDao;
     public static Dao<Dispositivo, Integer> DispositivoDao;

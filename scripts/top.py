@@ -47,10 +47,10 @@ def carpetas_home(reporte_id):
         for m in match:
 			espacio=m[OCUPA]
 			direccion=m[DIRECCION]
-            print "carpeta:  %d  pid: %s user: %s " %     (i,   espacio, direccion    )
+			print "carpeta:  %d  pid: %s user: %s " %     (i,   espacio, direccion    )
 			i+=1
-            model_user=Carpeta(espacio=espacio, direccion=direccion,reporte_id=reporte_id)
-            session.add(model_user)
+			model_user=Carpeta(espacio=espacio, direccion=direccion,reporte_id=reporte_id)
+			session.add(model_user)
 
 # commando top -n 1 -b
 def uso_cpu(reporte_id):
